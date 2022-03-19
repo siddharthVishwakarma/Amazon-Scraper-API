@@ -15,14 +15,27 @@ app.get("/", (req, res) => {
   res.send("Amazon Scraper API");
 });
 
-// Ger Product details
+// Get Product Details
 app.get("/products/:productId", async (req, res) => {
   const { productId } = req.params;
   try {
     const response = await request(
       `${baseURL}&url=https://www.amazon.in/dp/${productId}`
     );
-    res.json(response);
+    res.json(JSON.parse(response));
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+// Get Product Reviews
+app.get("/products/:productId/reviews", async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const response = await request(
+      `${baseURL}&url=https://www.amazon.in/product-reviews/${productId}`
+    );
+    res.json(JSON.parse(response));
   } catch (error) {
     res.json(error);
   }
